@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>یک روز کامل در تهران | تهران گشت ارغوانی</title>
+
+<!-- فونت فارسی Vazirmatn -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap"
+  rel="stylesheet"
+>
+
+<style>
+
+:root {
+  --purple-dark: #32134F;
+  --purple: #6F2C91;
+  --purple-main: #7B3FA1;
+  --purple-light: #EDE2F3;
+  --purple-soft: #F8F3FA;
+
+  --gold: #C8A64B;
+  --gold-light: #E4D08A;
+
+  --white: #FFFFFF;
+  --cream: #FCFAFD;
+
+  --text: #29212F;
+  --text-light: #665D6C;
+
+  --line: rgba(111,44,145,.14);
+
+  --font: "Vazirmatn", Tahoma, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--text);
+  font-family: var(--font);
+  line-height: 2;
+}
+
+
+/* =====================================================
+   HERO SLIDER
+===================================================== */
+
+.hero-slider {
+  position: relative;
+  height: 650px;
+  min-height: 560px;
+  overflow: hidden;
+  background: var(--purple-dark);
+}
+
+
+/* Slides */
+
+.slide {
+  position: absolute;
+  inset: 0;
+
+  opacity: 0;
+
+  transition:
+    opacity 1s ease,
+    transform 6s ease;
+
+  transform: scale(1.04);
+
+  background-size: cover;
+  background-position: center;
+}
+
+.slide.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+
+/* Images */
+
+.slide:nth-child(1) {
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(50,19,79,.35),
+      rgba(50,19,79,.88)
+    ),
+    url("https://commons.wikimedia.org/wiki/Special:FilePath/Chitgar_Lake_20190324_01.jpg?width=1600");
+}
+
+.slide:nth-child(2) {
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(50,19,79,.28),
+      rgba(50,19,79,.88)
+    ),
+    url("https://www.irandestination.com/wp-content/uploads/2020/11/Chitgar-lake.jpg");
+}
+
+.slide:nth-child(3) {
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(50,19,79,.30),
+      rgba(50,19,79,.90)
+    ),
+    url("https://gulfcitypedia.com/wp-content/uploads/2024/07/2.jpg");
+}
+
+
+/* Decorative pattern */
+
+.hero-slider::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  z-index: 2;
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      135deg,
+      transparent 0 48%,
+      rgba(228,208,138,.09) 48% 48.2%,
+      transparent 48.2%
+    );
+
+  opacity: .8;
+}
+
+
+/* Hero content */
+
+.hero-content {
+  position: relative;
+
+  z-index: 5;
+
+  height: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 40px 24px;
+
+  color: white;
+}
+
+
+.eyebrow {
+  display: inline-block;
+
+  margin-bottom: 22px;
+
+  padding: 6px 18px;
+
+  border: 1px solid rgba(228,208,138,.65);
+
+  border-radius: 50px;
+
+  color: var(--gold-light);
+
+  background: rgba(255,255,255,.06);
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+
+.hero-content h1 {
+  margin: 0 0 18px;
+
+  font-size: clamp(2.3rem, 6vw, 4.6rem);
+
+  font-weight: 800;
+
+  line-height: 1.45;
+
+  text-shadow:
+    0 5px 25px rgba(0,0,0,.25);
+}
+
+
+.hero-content p {
+  max-width: 680px;
+
+  margin: 0 auto;
+
+  color: #F1EAF5;
+
+  font-size: 1.05rem;
+
+  line-height: 2.2;
+
+  font-weight: 300;
+}
+
+
+.hero-line {
+  width: 130px;
+
+  height: 2px;
+
+  margin-top: 32px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--gold),
+      transparent
+    );
+}
+
+
+/* =====================================================
+   SLIDER CONTROLS
+===================================================== */
+
+.slider-btn {
+  position: absolute;
+
+  z-index: 10;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 48px;
+  height: 48px;
+
+  border: 1px solid rgba(255,255,255,.35);
+
+  border-radius: 50%;
+
+  background: rgba(50,19,79,.45);
+
+  color: white;
+
+  font-size: 22px;
+
+  cursor: pointer;
+
+  backdrop-filter: blur(5px);
+
+  transition: .25s ease;
+}
+
+
+.slider-btn:hover {
+  background: var(--purple);
+
+  border-color: var(--gold-light);
+}
+
+
+.prev {
+  right: 25px;
+}
+
+.next {
+  left: 25px;
+}
+
+
+/* Dots */
+
+.slider-dots {
+  position: absolute;
+
+  z-index: 10;
+
+  bottom: 28px;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  display: flex;
+
+  gap: 9px;
+
+  direction: ltr;
+}
+
+
+.dot {
+  width: 9px;
+  height: 9px;
+
+  border-radius: 50%;
+
+  border: none;
+
+  background: rgba(255,255,255,.5);
+
+  cursor: pointer;
+
+  transition: .3s ease;
+}
+
+
+.dot.active {
+  width: 28px;
+
+  border-radius: 20px;
+
+  background: var(--gold-light);
+}
+
+
+/* =====================================================
+   INTRO
+===================================================== */
+
+.intro {
+  max-width: 720px;
+
+  margin: 0 auto;
+
+  padding: 70px 24px 30px;
+
+  color: var(--text);
+
+  font-size: 1.03rem;
+
+  text-align: justify;
+}
+
+
+.intro strong {
+  color: var(--purple);
+
+  font-weight: 800;
+}
+
+
+/* =====================================================
+   TIMELINE
+===================================================== */
+
+.timeline {
+  max-width: 780px;
+
+  margin: auto;
+
+  padding: 10px 24px 45px;
+}
+
+
+.stop {
+  padding: 42px 0;
+
+  border-bottom:
+    1px solid var(--line);
+}
+
+
+.stop:last-child {
+  border-bottom: none;
+}
+
+
+/* Image */
+
+.stop-media {
+  position: relative;
+
+  overflow: hidden;
+
+  margin-bottom: 20px;
+
+  border-radius: 16px;
+
+  background: var(--purple-light);
+
+  box-shadow:
+    0 12px 35px rgba(50,19,79,.10);
+}
+
+
+.stop-media img {
+  display: block;
+
+  width: 100%;
+
+  height: 310px;
+
+  object-fit: cover;
+
+  transition: transform .5s ease;
+}
+
+
+.stop-media:hover img {
+  transform: scale(1.025);
+}
+
+
+.credit {
+  position: absolute;
+
+  bottom: 0;
+  left: 0;
+
+  padding: 4px 12px;
+
+  border-top-right-radius: 8px;
+
+  background: rgba(50,19,79,.82);
+
+  color: #F8F1FA;
+
+  font-size: 10px;
+}
+
+
+/* Heading */
+
+.stop-head {
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  margin-bottom: 12px;
+}
+
+
+.stop time {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-width: 65px;
+
+  padding: 4px 12px;
+
+  border-radius: 30px;
+
+  background: var(--purple-light);
+
+  border: 1px solid rgba(111,44,145,.12);
+
+  color: var(--purple);
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  direction: ltr;
+}
+
+
+.stop-head h3 {
+  margin: 0;
+
+  color: var(--purple-dark);
+
+  font-size: 1.35rem;
+
+  font-weight: 700;
+}
+
+
+.stop p {
+  margin: 0;
+
+  color: var(--text-light);
+
+  font-size: .97rem;
+
+  line-height: 2.2;
+
+  text-align: justify;
+}
+
+
+.place {
+  color: var(--purple);
+
+  font-weight: 700;
+}
+
+
+/* =====================================================
+   DIVIDER
+===================================================== */
+
+.tile-divider {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 14px;
+
+  padding: 10px 0 50px;
+}
+
+
+.tile-divider span {
+  width: 9px;
+  height: 9px;
+
+  transform: rotate(45deg);
+
+  background: var(--gold);
+
+  opacity: .8;
+}
+
+
+.tile-divider span:nth-child(2),
+.tile-divider span:nth-child(4) {
+  background: var(--purple);
+}
+
+
+/* =====================================================
+   NOTE
+===================================================== */
+
+.note {
+  max-width: 720px;
+
+  margin: auto;
+
+  padding: 0 24px 90px;
+}
+
+
+.note-box {
+  padding: 25px 28px;
+
+  border-right: 5px solid var(--purple);
+
+  border-radius: 12px;
+
+  background: white;
+
+  color: var(--text-light);
+
+  font-size: .93rem;
+
+  line-height: 2.15;
+
+  box-shadow:
+    0 8px 25px rgba(50,19,79,.06);
+}
+
+
+.note-box b {
+  color: var(--purple-dark);
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+  padding: 35px 24px 55px;
+
+  border-top:
+    1px solid rgba(111,44,145,.08);
+
+  text-align: center;
+
+  color: #9C91A4;
+
+  font-size: 11px;
+
+  letter-spacing: .1em;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+  .hero-slider {
+    height: 560px;
+    min-height: 520px;
+  }
+
+  .hero-content {
+    padding: 30px 20px;
+  }
+
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero-content p {
+    font-size: .92rem;
+  }
+
+  .slider-btn {
+    width: 40px;
+    height: 40px;
+
+    font-size: 18px;
+  }
+
+  .prev {
+    right: 14px;
+  }
+
+  .next {
+    left: 14px;
+  }
+
+  .intro {
+    padding-top: 50px;
+
+    font-size: .96rem;
+  }
+
+  .timeline {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .stop {
+    padding: 32px 0;
+  }
+
+  .stop-media img {
+    height: 220px;
+  }
+
+  .stop-head h3 {
+    font-size: 1.15rem;
+  }
+
+  .stop p {
+    font-size: .91rem;
+  }
+
+  .note {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HERO SLIDER
+===================================================== -->
+
+<section class="hero-slider">
+
+  <div class="slide active"></div>
+  <div class="slide"></div>
+  <div class="slide"></div>
+
+
+  <div class="hero-content">
+
+    <span class="eyebrow">
+      تهران گشت ارغوانی
+    </span>
+
+    <h1>
+      از دل تاریخ تا کنار دریاچه
+    </h1>
+
+    <p>
+      یک مسیر فشرده برای دیدن تهران در یک روز؛
+      از کاخ قاجاری گلستان تا غروب کنار دریاچه شهدای خلیج فارس.
+    </p>
+
+    <div class="hero-line"></div>
+
+  </div>
+
+
+  <!-- Previous -->
+
+  <button
+    class="slider-btn prev"
+    aria-label="تصویر قبلی">
+    ❯
+  </button>
+
+
+  <!-- Next -->
+
+  <button
+    class="slider-btn next"
+    aria-label="تصویر بعدی">
+    ❮
+  </button>
+
+
+  <!-- Dots -->
+
+  <div class="slider-dots">
+
+    <button class="dot active"></button>
+    <button class="dot"></button>
+    <button class="dot"></button>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     INTRO
+===================================================== -->
+
+<div class="intro">
+
+  <p>
+    تهران شهری‌ست که در یک روز هم می‌شود در دالان‌های صدساله‌ی بازار قدم زد،
+    هم از بلندترین نقطه‌ی شهر غروب را تماشا کرد و هم شب را کنار یک دریاچه‌ی
+    مصنوعی به پایان رساند.
+
+    اگر فقط
+    <strong>یک روز</strong>
+    وقت دارید، این مسیر ترکیبی از تاریخ، فرهنگ و مدرنیته‌ی تهران را در یک برنامه جا می‌دهد.
+  </p>
+
+</div>
+
+
+
+<!-- =====================================================
+     TIMELINE
+===================================================== -->
+
+<div class="timeline">
+
+
+  <div class="stop">
+
+    <div class="stop-media">
+
+      <img
+        src="https://commons.wikimedia.org/wiki/Special:FilePath/Outside_view_of_golestan_palace.jpg?width=900"
+        alt="کاخ گلستان"
+        loading="lazy"
+      >
+
+      <span class="credit">
+        عکس: ویکی‌مدیا کامنز
+      </span>
+
+    </div>
+
+    <div class="stop-head">
+
+      <time>09:00</time>
+
+      <h3>کاخ گلستان</h3>
+
+    </div>
+
+    <p>
+      روز را با مجموعه‌ای ثبت‌شده در یونسکو شروع کنید؛
+      <span class="place">تالار آینه</span>
+      و
+      <span class="place">کاخ مرمر</span>
+      هنوز شکوه دوره قاجار را روایت می‌کنند.
+      صبح زود بروید تا از ازدحام در امان بمانید.
+    </p>
+
+  </div>
+
+
+
+  <div class="stop">
+
+    <div class="stop-media">
+
+      <img
+        src="https://commons.wikimedia.org/wiki/Special:FilePath/Grand_Bazaar,_Tehran_(41723673865).jpg?width=900"
+        alt="بازار بزرگ تهران"
+        loading="lazy"
+      >
+
+      <span class="credit">
+        عکس: ویکی‌مدیا کامنز
+      </span>
+
+    </div>
+
+    <div class="stop-head">
+
+      <time>10:30</time>
+
+      <h3>بازار بزرگ تهران</h3>
+
+    </div>
+
+    <p>
+      چند دقیقه پیاده تا
+      <span class="place">راسته‌های سرپوشیده بازار</span>.
+      بوی ادویه، چانه‌زنی برای فرش و طلا، و حال‌وهوایی که هیچ‌کجای دیگر تهران پیدا نمی‌شود.
+    </p>
+
+  </div>
+
+
+
+  <div class="stop">
+
+    <div class="stop-media">
+
+      <img
+        src="https://commons.wikimedia.org/wiki/Special:FilePath/Iranian_National_Museum_main_entrance_arch.jpg?width=900"
+        alt="موزه ملی ایران"
+        loading="lazy"
+      >
+
+      <span class="credit">
+        عکس: ویکی‌مدیا کامنز
+      </span>
+
+    </div>
+
+    <div class="stop-head">
+
+      <time>12:00</time>
+
+      <h3>موزه ملی ایران</h3>
+
+    </div>
+
+    <p>
+      از سفال‌های پیش از تاریخ تا آثار دوره اسلامی، در دو ساختمان کنار هم.
+      یکی دو ساعت کافی‌ست. بعد از موزه، ناهاری سنتی در همین محدوده.
+    </p>
+
+  </div>
+
+
+
+  <div class="stop">
+
+    <div class="stop-media">
+
+      <img
+        src="https://commons.wikimedia.org/wiki/Special:FilePath/Nature_Bridge_and_Parks,_Tehran_(27589907407).jpg?width=900"
+        alt="پل طبیعت"
+        loading="lazy"
+      >
+
+      <span class="credit">
+        عکس: ویکی‌مدیا کامنز
+      </span>
+
+    </div>
+
+    <div class="stop-head">
+
+      <time>15:30</time>
+
+      <h3>پل طبیعت</h3>
+
+    </div>
+
+    <p>
+      پل عابر پیاده‌ی مدرنی که دو پارک را به هم وصل می‌کند؛
+      پر از کافه و فضای سبز، عالی برای یک استراحت کوتاه بعدازظهر.
+    </p>
+
+  </div>
+
+
+
+  <div class="stop">
+
+    <div class="stop-media">
+
+      <img
+        src="https://commons.wikimedia.org/wiki/Special:FilePath/Tehran_Milad_Tower.jpg?width=900"
+        alt="برج میلاد تهران"
+        loading="lazy"
+      >
+
+      <span class="credit">
+        عکس: ویکی‌مدیا کامنز
+      </span>
+
+    </div>
+
+    <div class="stop-head">
+
+      <time>17:30</time>
+
+      <h3>برج میلاد</h3>
+
+    </div>
+
+    <p>
+      از سکوی دیدبانی در ارتفاع ۲۸۰ متری، تهران را زیر پا ببینید؛
+      اگر هوا صاف باشد، دماوند هم از دور پیداست.
+    </p>
+
+  </div>
+
+
+
+  <div class="stop">
+
+    <div class="stop-media">
+
+      <img
+        src="https://commons.wikimedia.org/wiki/Special:FilePath/Azadi_Tower_at_sunset.jpg?width=900"
+        alt="برج آزادی تهران"
+        loading="lazy"
+      >
+
+      <span class="credit">
+        عکس: ویکی‌مدیا کامنز
+      </span>
+
+    </div>
+
+    <div class="stop-head">
+
+      <time>19:00</time>
+
+      <h3>میدان و برج آزادی</h3>
+
+    </div>
+
+    <p>
+      نماد اصلی تهران، در نور غروب و بعد در نورپردازی شب،
+      منظره‌ای فراموش‌نشدنی می‌سازد.
+    </p>
+
+  </div>
+
+
+
+  <!-- LAKE -->
+
+  <div class="stop">
+
+    <div class="stop-media">
+
+      <img
+        src="https://commons.wikimedia.org/wiki/Special:FilePath/Chitgar_Lake_20190324_01.jpg?width=900"
+        alt="دریاچه شهدای خلیج فارس"
+        loading="lazy"
+      >
+
+      <span class="credit">
+        عکس: ویکی‌مدیا کامنز
+      </span>
+
+    </div>
+
+    <div class="stop-head">
+
+      <time>20:30</time>
+
+      <h3>دریاچه شهدای خلیج فارس</h3>
+
+    </div>
+
+    <p>
+      پایان روز را کنار
+      <span class="place">دریاچه شهدای خلیج فارس</span>
+      بگذرانید.
+      پیاده‌روی کنار آب، تماشای نورهای شب و استفاده از کافه‌ها و
+      مجموعه‌های تفریحی اطراف، پایان آرامی برای یک روز پرتحرک در تهران است.
+    </p>
+
+  </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     DIVIDER
+===================================================== -->
+
+<div class="tile-divider">
+
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+
+</div>
+
+
+
+<!-- =====================================================
+     NOTE
+===================================================== -->
+
+<div class="note">
+
+  <div class="note-box">
+
+    <b>نکته‌ی مسیر:</b>
+
+    این برنامه فشرده است و فاصله‌ی قابل‌توجهی بین ایستگاه‌ها وجود دارد،
+    به‌خصوص تا دریاچه شهدای خلیج فارس که در غرب شهر است؛
+    بهتر است از تاکسی آنلاین یا خودروی شخصی استفاده کنید.
+
+    اگر وقت کم آوردید، حذف پل طبیعت یا برج میلاد کمک می‌کند
+    بدون عجله به غروب کنار دریاچه برسید.
+
+  </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+  TEHRAN GASHT ARGAVANI · ONE DAY ITINERARY
+
+</footer>
+
+
+
+<!-- =====================================================
+     SLIDER JAVASCRIPT
+===================================================== -->
+
+<script>
+
+const slides = document.querySelectorAll(".slide");
+const dots = document.querySelectorAll(".dot");
+
+const prevButton = document.querySelector(".prev");
+const nextButton = document.querySelector(".next");
+
+let currentSlide = 0;
+
+
+/* Show slide */
+
+function showSlide(index) {
+
+  slides.forEach((slide) => {
+    slide.classList.remove("active");
+  });
+
+  dots.forEach((dot) => {
+    dot.classList.remove("active");
+  });
+
+  currentSlide = (index + slides.length) % slides.length;
+
+  slides[currentSlide].classList.add("active");
+
+  dots[currentSlide].classList.add("active");
+}
+
+
+/* Next */
+
+function nextSlide() {
+  showSlide(currentSlide + 1);
+}
+
+
+/* Previous */
+
+function previousSlide() {
+  showSlide(currentSlide - 1);
+}
+
+
+/* Buttons */
+
+nextButton.addEventListener("click", nextSlide);
+
+prevButton.addEventListener("click", previousSlide);
+
+
+/* Dots */
+
+dots.forEach((dot, index) => {
+
+  dot.addEventListener("click", () => {
+
+    showSlide(index);
+
+  });
+
+});
+
+
+/* Automatic slider */
+
+let sliderInterval = setInterval(
+  nextSlide,
+  5000
+);
+
+
+/* Pause when mouse enters */
+
+const slider = document.querySelector(".hero-slider");
+
+slider.addEventListener("mouseenter", () => {
+
+  clearInterval(sliderInterval);
+
+});
+
+
+/* Resume when mouse leaves */
+
+slider.addEventListener("mouseleave", () => {
+
+  sliderInterval = setInterval(
+    nextSlide,
+    5000
+  );
+
+});
+
+
+/* Keyboard */
+
+document.addEventListener("keydown", (event) => {
+
+  if (event.key === "ArrowRight") {
+    previousSlide();
+  }
+
+  if (event.key === "ArrowLeft") {
+    nextSlide();
+  }
+
+});
+
+</script>
+
+
+</body>
+</html>
