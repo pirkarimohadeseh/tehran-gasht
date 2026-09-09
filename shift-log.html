@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ثبت گزارش سرشیفت حفاظت فیزیکی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#12161d;
+    --panel:#1b212b;
+    --panel-2:#212836;
+    --line:#2a3242;
+    --line-soft:#232a37;
+    --text:#e8ebf1;
+    --muted:#8c95a6;
+    --amber:#e7a33e;
+    --amber-dim:#4a3a20;
+    --teal:#4f9c8a;
+    --teal-dim:#1c3630;
+    --red:#c85c52;
+    --red-dim:#3a2426;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Vazirmatn', Tahoma, Arial, sans-serif;
+    line-height:1.7;
+    min-height:100vh;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 18px 70px;}
+
+  /* header */
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    margin-bottom:22px;flex-wrap:wrap;
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand .mark{
+    width:38px;height:38px;border-radius:8px;
+    background:linear-gradient(160deg,var(--amber),#b9781f);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;color:#1a1406;font-size:15px;flex-shrink:0;
+  }
+  .brand h1{font-size:17px;margin:0;font-weight:700;letter-spacing:.2px;}
+  .brand p{margin:2px 0 0;font-size:12.5px;color:var(--muted);}
+  .status-pill{
+    font-size:12px;color:var(--muted);padding:6px 12px;border:1px solid var(--line);
+    border-radius:99px;background:var(--panel);display:flex;align-items:center;gap:7px;
+  }
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);flex-shrink:0;}
+  .dot.saving{background:var(--amber);animation:pulse 1s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+
+  .layout{display:grid;grid-template-columns:300px 1fr;gap:16px;align-items:start;}
+  @media (max-width:880px){.layout{grid-template-columns:1fr;}}
+
+  /* history rail */
+  .history{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:14px;position:sticky;top:16px;
+  }
+  .history h2{font-size:13px;margin:0 0 10px;color:var(--muted);font-weight:600;}
+  .history .newbtn{
+    width:100%;padding:9px 10px;border-radius:8px;border:1px dashed var(--line);
+    background:transparent;color:var(--amber);font-family:inherit;font-size:13px;cursor:pointer;
+    margin-bottom:10px;font-weight:600;
+  }
+  .history .newbtn:hover{background:var(--amber-dim);}
+  .hist-list{display:flex;flex-direction:column;gap:6px;max-height:420px;overflow-y:auto;}
+  .hist-item{
+    padding:9px 10px;border-radius:8px;border:1px solid transparent;cursor:pointer;
+    font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between;gap:6px;
+  }
+  .hist-item:hover{background:var(--panel-2);}
+  .hist-item.active{background:var(--amber-dim);border-color:var(--amber);color:var(--text);}
+  .hist-item b{color:inherit;font-weight:600;display:block;font-size:13px;}
+  .hist-empty{font-size:12.5px;color:var(--muted);padding:8px 2px;}
+
+  /* main panels */
+  .panel{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px;margin-bottom:16px;
+  }
+  .panel h2{
+    font-size:14px;margin:0 0 14px;font-weight:700;display:flex;align-items:center;gap:8px;
+  }
+  .panel h2 .num{
+    width:22px;height:22px;border-radius:6px;background:var(--panel-2);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--amber);flex-shrink:0;
+  }
+
+  .grid{display:grid;gap:12px;}
+  .grid.cols-4{grid-template-columns:repeat(4,1fr);}
+  .grid.cols-3{grid-template-columns:repeat(3,1fr);}
+  .grid.cols-2{grid-template-columns:repeat(2,1fr);}
+  @media (max-width:700px){.grid.cols-4,.grid.cols-3,.grid.cols-2{grid-template-columns:1fr 1fr;}}
+  @media (max-width:480px){.grid.cols-4,.grid.cols-3,.grid.cols-2{grid-template-columns:1fr;}}
+
+  label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;}
+  input[type=text], input[type=date], input[type=number], select, textarea{
+    width:100%;background:var(--panel-2);border:1px solid var(--line);color:var(--text);
+    border-radius:8px;padding:9px 10px;font-family:inherit;font-size:13.5px;outline:none;
+  }
+  input:focus, select:focus, textarea:focus{border-color:var(--amber);}
+  textarea{resize:vertical;min-height:60px;}
+
+  .field{margin-bottom:2px;}
+
+  /* exception category card */
+  .cat{
+    background:var(--panel-2);border:1px solid var(--line);border-radius:9px;padding:12px;
+  }
+  .cat-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .cat-top .label{font-size:13px;font-weight:600;}
+  .cat-top .count{
+    font-size:15px;font-weight:800;color:var(--amber);background:var(--amber-dim);
+    padding:2px 10px;border-radius:99px;min-width:28px;text-align:center;
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;min-height:8px;}
+  .chip{
+    background:var(--panel);border:1px solid var(--line);border-radius:99px;padding:4px 6px 4px 10px;
+    font-size:12px;display:flex;align-items:center;gap:6px;
+  }
+  .chip button{
+    background:var(--red-dim);color:var(--red);border:none;border-radius:50%;width:16px;height:16px;
+    font-size:11px;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;
+  }
+  .add-row{display:flex;gap:6px;}
+  .add-row input{flex:1;font-size:12.5px;padding:7px 9px;}
+  .add-row button{
+    background:var(--teal-dim);color:var(--teal);border:1px solid var(--teal);border-radius:7px;
+    padding:0 12px;font-family:inherit;cursor:pointer;font-size:12.5px;font-weight:600;
+  }
+
+  /* events log */
+  .events{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+  .event{
+    display:flex;flex-direction:column;gap:8px;
+    background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:9px 10px;
+  }
+  .event-top{display:grid;grid-template-columns:70px 1fr 30px;gap:10px;align-items:start;}
+  .event input[type=text].time{padding:6px 7px;font-size:12.5px;text-align:center;}
+  .event textarea{min-height:38px;font-size:13px;padding:7px 8px;}
+  .event .del{
+    background:var(--red-dim);color:var(--red);border:none;border-radius:6px;
+    cursor:pointer;font-size:13px;height:30px;
+  }
+  .event-files{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+  .file-chip{
+    display:flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);
+    border-radius:8px;padding:4px 8px 4px 4px;font-size:11.5px;color:var(--muted);max-width:180px;
+  }
+  .file-chip .thumb{
+    width:32px;height:32px;object-fit:cover;border-radius:5px;flex-shrink:0;background:#000;
+  }
+  .file-chip .fname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:90px;}
+  .file-chip button{
+    background:var(--red-dim);color:var(--red);border:none;border-radius:50%;width:16px;height:16px;
+    font-size:11px;cursor:pointer;flex-shrink:0;line-height:1;display:flex;align-items:center;justify-content:center;
+  }
+  .file-add-label{
+    background:transparent;border:1px dashed var(--line);color:var(--teal);border-radius:8px;
+    padding:6px 12px;font-size:12px;cursor:pointer;font-family:inherit;font-weight:600;
+    display:inline-flex;align-items:center;gap:6px;
+  }
+  .file-add-label:hover{background:var(--teal-dim);}
+  .file-add-label input{display:none;}
+  .add-event{
+    width:100%;padding:10px;border-radius:8px;border:1px dashed var(--line);
+    background:transparent;color:var(--amber);font-family:inherit;font-size:13px;cursor:pointer;font-weight:600;
+  }
+  .add-event:hover{background:var(--amber-dim);}
+  .events-empty{color:var(--muted);font-size:12.5px;padding:6px 2px;}
+  .events-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+  .export-events-btn{
+    padding:10px 16px;border-radius:8px;border:1px solid var(--teal);
+    background:var(--teal-dim);color:var(--teal);font-family:inherit;font-size:13px;cursor:pointer;font-weight:600;
+  }
+  .export-events-btn:hover{filter:brightness(1.15);}
+
+  /* posts table */
+  .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:9px;}
+  table{width:100%;border-collapse:collapse;font-size:12.8px;min-width:760px;}
+  thead th{
+    background:var(--panel-2);color:var(--muted);font-weight:600;text-align:right;
+    padding:9px 8px;border-bottom:1px solid var(--line);white-space:nowrap;font-size:12px;
+  }
+  tbody td{padding:6px 8px;border-bottom:1px solid var(--line-soft);vertical-align:middle;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:var(--panel-2);}
+  td .idx{color:var(--muted);text-align:center;display:block;font-size:12px;}
+  table input[type=text]{padding:6px 8px;font-size:12.5px;}
+  table input.score{width:56px;text-align:center;padding:6px;}
+  table input.radio-code{width:90px;}
+  .present-toggle{
+    width:26px;height:26px;border-radius:7px;border:1px solid var(--line);background:var(--panel);
+    cursor:pointer;color:var(--muted);font-size:14px;display:flex;align-items:center;justify-content:center;margin:0 auto;
+  }
+  .present-toggle.on{background:var(--teal-dim);border-color:var(--teal);color:var(--teal);}
+  .row-del{
+    background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:14px;
+  }
+  .row-del:hover{color:var(--red);}
+  .add-post-row{
+    margin-top:10px;padding:9px 10px;border-radius:8px;border:1px dashed var(--line);
+    background:transparent;color:var(--amber);font-family:inherit;font-size:12.8px;cursor:pointer;font-weight:600;
+  }
+  .add-post-row:hover{background:var(--amber-dim);}
+
+  .footer-actions{
+    display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:6px;
+  }
+  .btn{
+    padding:11px 20px;border-radius:9px;font-family:inherit;font-size:13.5px;font-weight:700;
+    cursor:pointer;border:1px solid transparent;
+  }
+  .btn.primary{background:var(--amber);color:#1a1406;}
+  .btn.primary:hover{background:#f0b256;}
+  .btn.ghost{background:transparent;border-color:var(--line);color:var(--text);}
+  .btn.ghost:hover{border-color:var(--muted);}
+
+  .hint{font-size:11.5px;color:var(--muted);margin-top:10px;line-height:1.8;}
+  .toast{
+    position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+    background:var(--panel-2);border:1px solid var(--teal);color:var(--text);
+    padding:10px 18px;border-radius:99px;font-size:13px;box-shadow:0 6px 24px rgba(0,0,0,.4);
+    opacity:0;pointer-events:none;transition:opacity .25s, transform .25s;z-index:50;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(-6px);}
+
+  @media print{
+    body{background:#fff;color:#000;}
+    .history,.add-event,.add-post-row,.footer-actions,.newbtn,.status-pill,.chip button,.row-del,.add-row,.export-events-btn,.file-add-label,.file-chip button{display:none !important;}
+    .panel{border-color:#ccc;background:#fff;}
+    .layout{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="mark">حف</div>
+      <div>
+        <h1>ثبت گزارش سرشیفت حفاظت فیزیکی</h1>
+        <p>گزارش سرشیفت + لیست موقعیت پستی پرسنل — ثبت روزانه</p>
+      </div>
+    </div>
+    <div class="status-pill"><span class="dot" id="statusDot"></span><span id="statusText">همه چیز ذخیره شده</span></div>
+  </div>
+
+  <div class="layout">
+
+    <div class="history">
+      <h2>گزارش‌های ثبت‌شده</h2>
+      <button class="newbtn" id="newReportBtn">+ گزارش جدید</button>
+      <div class="hist-list" id="histList"><div class="hist-empty">در حال بارگذاری…</div></div>
+    </div>
+
+    <div class="main">
+
+      <div class="panel">
+        <h2><span class="num">۱</span> اطلاعات شیفت</h2>
+        <div class="grid cols-4">
+          <div class="field">
+            <label>نام و نام خانوادگی سرشیفت</label>
+            <input type="text" id="chiefName" placeholder="مثلاً حامد ضیایی">
+          </div>
+          <div class="field">
+            <label>تاریخ شیفت</label>
+            <input type="text" id="shiftDate" placeholder="۱۴۰۵/۰۵/۰۶">
+          </div>
+          <div class="field">
+            <label>نوع شیفت</label>
+            <select id="shiftType">
+              <option value="روزکار">روزکار</option>
+              <option value="شب‌کار">شب‌کار</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>تایم شیفت</label>
+            <select id="shiftDuration">
+              <option value="۱۲ ساعته">۱۲ ساعته</option>
+              <option value="۲۴ ساعته">۲۴ ساعته</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2><span class="num">۲</span> آمار پرسنل</h2>
+        <div class="grid cols-2" style="margin-bottom:14px;">
+          <div class="field">
+            <label>تعداد راکب</label>
+            <input type="number" id="countRakeb" min="0" value="0">
+          </div>
+          <div class="field">
+            <label>تعداد نگهبان ثابت</label>
+            <input type="number" id="countSaben" min="0" value="0">
+          </div>
+        </div>
+        <div class="grid cols-4" id="categoriesGrid"></div>
+      </div>
+
+      <div class="panel">
+        <h2><span class="num">۳</span> شرح اتفاقات و وقایع</h2>
+        <div class="events" id="eventsList"></div>
+        <button class="add-event" id="addEventBtn">+ افزودن رویداد</button>
+        <div class="events-actions">
+          <button class="export-events-btn" id="exportEventsBtn">📄 خروجی شرح اتفاقات و وقایع</button>
+        </div>
+        <p class="hint">برای هر رویداد می‌توانید عکس یا فیلم به‌عنوان ضمیمه بارگذاری کنید. حجم فایل‌های ضمیمه را متناسب نگه دارید تا ذخیره‌سازی گزارش با خطا مواجه نشود.</p>
+      </div>
+
+      <div class="panel">
+        <h2><span class="num">۴</span> لیست موقعیت پستی پرسنل حفاظت فیزیکی</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:34px;">#</th>
+                <th style="min-width:130px;">نام و نام خانوادگی</th>
+                <th style="min-width:150px;">موقعیت پستی</th>
+                <th style="width:100px;">کد بیسیم</th>
+                <th style="width:60px;">حضور</th>
+                <th style="width:110px;">نمره عملکرد (از ۱۰)</th>
+                <th style="width:30px;"></th>
+              </tr>
+            </thead>
+            <tbody id="postsBody"></tbody>
+          </table>
+        </div>
+        <button class="add-post-row" id="addPostBtn">+ افزودن ردیف پست</button>
+        <p class="hint">علامت‌زدن «حضور» به‌معنای امضای پرسنل در محل است. نمره عملکرد را ناظر حفاظت فیزیکی وارد می‌کند.</p>
+      </div>
+
+      <div class="footer-actions">
+        <button class="btn ghost" id="printBtn">چاپ / خروجی PDF</button>
+        <button class="btn primary" id="saveBtn">ذخیره گزارش</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const CATS = [
+  {key:'leave', label:'مرخصی', color:'amber'},
+  {key:'sick', label:'استعلاجی', color:'amber'},
+  {key:'overtime', label:'اضافه‌کاری', color:'amber'},
+  {key:'absence', label:'غیبت', color:'red'},
+];
+
+const DEFAULT_POSTS = [
+  ['سرشیفت و راکب پهنه ۱','شاهد'],['بالا اداری','قائم۱۱'],['تنب کوچک','قائم۱۲'],
+  ['ساختمان اداری','قائم۱۳'],['ساحل غرب ۱','قائم۱۴'],['ساحل غرب ۲','قائم۱۵'],
+  ['راکب پهنه ۲','شاهد۲'],['ورودی عمرانی','قائم۲۱'],['تنب بزرگ','قائم۲۲'],
+  ['ساحل شرق ۱','قائم۲۳'],['ساحل شرق ۲','قائم۲۴'],['تصفیه خانه','قائم۲۵'],
+  ['پارکینگ شرق','قائم۲۶'],['ورودی جزیره بوموسی','قائم۲۷'],['راکب پهنه ۳','شاهد۳'],
+  ['ورودی ارغوان','قائم۳۱'],['بام لند','قائم۳۲'],['پادگان','قائم۳۳'],
+  ['سرریز','قائم۳۴'],['راکب پهنه ۴','شاهد۴'],['همدانی','قائم۴۱'],
+  ['جایگاه','قائم۴۲'],['گذر موج غرب','قائم۴۳'],['درب چیتگر','قائم۴۴'],
+  ['اسکله غرب','قائم۴۵'],['راکب پهنه ۵','شاهد۵'],['درب میعاد','قائم۵۱'],
+  ['استیج غرب رینگ اصلی','قائم۵۲'],['پهنه جنگل','قائم۵۳'],['راکب پهنه ۶','شاهد۶'],
+  ['درب ملل','قائم۶۱'],['سروستان','قائم۶۲'],['چهارراه طبیعت','قائم۶۳'],
+];
+
+let state = null;
+let saveTimer = null;
+let allReports = {}; // key -> report
+
+function uid(){ return Math.random().toString(36).slice(2,9); }
+
+function todayFa(){
+  const d = new Date();
+  return d.getFullYear()+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0');
+}
+
+function blankReport(){
+  return {
+    id: uid(),
+    chiefName:'', shiftDate: todayFa(), shiftType:'روزکار', shiftDuration:'۲۴ ساعته',
+    countRakeb:0, countSaben:0,
+    categories: { leave:[], sick:[], overtime:[], absence:[] },
+    events: [],
+    posts: DEFAULT_POSTS.map(p => ({ id: uid(), name:'', post:p[0], code:p[1], present:false, score:'' })),
+    updatedAt: Date.now(),
+  };
+}
+
+function reportKey(id){ return 'shiftreport:'+id; }
+
+async function loadAll(){
+  try{
+    const listRes = await window.storage.list('shiftreport:', true);
+    const keys = (listRes && listRes.keys) || [];
+    allReports = {};
+    for(const k of keys){
+      try{
+        const r = await window.storage.get(k, true);
+        if(r && r.value){
+          const obj = JSON.parse(r.value);
+          allReports[obj.id] = obj;
+        }
+      }catch(e){}
+    }
+  }catch(e){
+    allReports = {};
+  }
+}
+
+function sortedReports(){
+  return Object.values(allReports).sort((a,b)=> (b.updatedAt||0)-(a.updatedAt||0));
+}
+
+function renderHistory(){
+  const list = document.getElementById('histList');
+  const reps = sortedReports();
+  if(reps.length===0){
+    list.innerHTML = '<div class="hist-empty">هنوز گزارشی ثبت نشده</div>';
+    return;
+  }
+  list.innerHTML = '';
+  reps.forEach(r=>{
+    const div = document.createElement('div');
+    div.className = 'hist-item' + (state && state.id===r.id ? ' active':'');
+    div.innerHTML = `<div><b>${r.shiftDate || '—'} · ${r.shiftType||''}</b><span>${r.chiefName || 'بدون نام سرشیفت'}</span></div>`;
+    div.addEventListener('click', ()=>{ state = JSON.parse(JSON.stringify(r)); renderAll(); });
+    list.appendChild(div);
+  });
+}
+
+function setStatus(saving){
+  const dot = document.getElementById('statusDot');
+  const txt = document.getElementById('statusText');
+  if(saving){ dot.classList.add('saving'); txt.textContent='در حال ذخیره…'; }
+  else { dot.classList.remove('saving'); txt.textContent='همه چیز ذخیره شده'; }
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 1800);
+}
+
+function scheduleSave(){
+  setStatus(true);
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async ()=>{
+    state.updatedAt = Date.now();
+    try{
+      await window.storage.set(reportKey(state.id), JSON.stringify(state), true);
+      allReports[state.id] = JSON.parse(JSON.stringify(state));
+    }catch(e){
+      console.error('storage error', e);
+    }
+    setStatus(false);
+    renderHistory();
+  }, 500);
+}
+
+/* ---------- render header fields ---------- */
+function bindHeader(){
+  document.getElementById('chiefName').oninput = e=>{ state.chiefName = e.target.value; scheduleSave(); };
+  document.getElementById('shiftDate').oninput = e=>{ state.shiftDate = e.target.value; scheduleSave(); };
+  document.getElementById('shiftType').onchange = e=>{ state.shiftType = e.target.value; scheduleSave(); };
+  document.getElementById('shiftDuration').onchange = e=>{ state.shiftDuration = e.target.value; scheduleSave(); };
+  document.getElementById('countRakeb').oninput = e=>{ state.countRakeb = e.target.value; scheduleSave(); };
+  document.getElementById('countSaben').oninput = e=>{ state.countSaben = e.target.value; scheduleSave(); };
+}
+function fillHeader(){
+  document.getElementById('chiefName').value = state.chiefName || '';
+  document.getElementById('shiftDate').value = state.shiftDate || '';
+  document.getElementById('shiftType').value = state.shiftType || 'روزکار';
+  document.getElementById('shiftDuration').value = state.shiftDuration || '۲۴ ساعته';
+  document.getElementById('countRakeb').value = state.countRakeb ?? 0;
+  document.getElementById('countSaben').value = state.countSaben ?? 0;
+}
+
+/* ---------- categories (leave/sick/overtime/absence) ---------- */
+function renderCategories(){
+  const grid = document.getElementById('categoriesGrid');
+  grid.innerHTML = '';
+  CATS.forEach(cat=>{
+    const names = state.categories[cat.key] || [];
+    const card = document.createElement('div');
+    card.className = 'cat';
+    card.innerHTML = `
+      <div class="cat-top"><span class="label">${cat.label}</span><span class="count">${names.length}</span></div>
+      <div class="chips" data-chips></div>
+      <div class="add-row">
+        <input type="text" placeholder="نام و نام خانوادگی" data-input>
+        <button data-add>افزودن</button>
+      </div>
+    `;
+    const chipsEl = card.querySelector('[data-chips]');
+    names.forEach((n, idx)=>{
+      const chip = document.createElement('span');
+      chip.className='chip';
+      chip.innerHTML = `<span>${n}</span><button data-i="${idx}">×</button>`;
+      chip.querySelector('button').onclick = ()=>{
+        state.categories[cat.key].splice(idx,1);
+        renderCategories(); scheduleSave();
+      };
+      chipsEl.appendChild(chip);
+    });
+    const input = card.querySelector('[data-input]');
+    const addFn = ()=>{
+      const v = input.value.trim();
+      if(!v) return;
+      state.categories[cat.key].push(v);
+      input.value='';
+      renderCategories(); scheduleSave();
+    };
+    card.querySelector('[data-add]').onclick = addFn;
+    input.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); addFn(); } });
+    grid.appendChild(card);
+  });
+}
+
+/* ---------- events log ---------- */
+function readFileAsDataURL(file){
+  return new Promise((resolve, reject)=>{
+    const r = new FileReader();
+    r.onload = ()=> resolve(r.result);
+    r.onerror = ()=> reject(r.error);
+    r.readAsDataURL(file);
+  });
+}
+
+function renderEvents(){
+  const list = document.getElementById('eventsList');
+  list.innerHTML = '';
+  if(state.events.length===0){
+    list.innerHTML = '<div class="events-empty">رویدادی ثبت نشده — با دکمه زیر رویداد اضافه کنید.</div>';
+  }
+  state.events.forEach((ev, idx)=>{
+    if(!ev.files) ev.files = [];
+    const row = document.createElement('div');
+    row.className = 'event';
+    row.innerHTML = `
+      <div class="event-top">
+        <input type="text" class="time" value="${ev.time||''}" placeholder="ساعت">
+        <textarea placeholder="شرح رویداد...">${ev.text||''}</textarea>
+        <button class="del" title="حذف">×</button>
+      </div>
+      <div class="event-files" data-files></div>
+      <label class="file-add-label">📎 افزودن عکس/فیلم
+        <input type="file" accept="image/*,video/*" multiple data-fileinput>
+      </label>
+    `;
+    const topRow = row.querySelector('.event-top');
+    const [timeInput, textArea, delBtn] = topRow.children;
+    timeInput.oninput = ()=>{ ev.time = timeInput.value; scheduleSave(); };
+    textArea.oninput = ()=>{ ev.text = textArea.value; scheduleSave(); };
+    delBtn.onclick = ()=>{ state.events.splice(idx,1); renderEvents(); scheduleSave(); };
+
+    const filesEl = row.querySelector('[data-files]');
+    function renderFiles(){
+      filesEl.innerHTML = '';
+      ev.files.forEach((f, fIdx)=>{
+        const chip = document.createElement('span');
+        chip.className = 'file-chip';
+        const isImage = (f.type||'').startsWith('image/');
+        const thumb = isImage
+          ? `<img class="thumb" src="${f.dataUrl}">`
+          : `<video class="thumb" src="${f.dataUrl}" muted></video>`;
+        chip.innerHTML = `${thumb}<span class="fname">${f.name}</span><button data-fi="${fIdx}">×</button>`;
+        chip.querySelector('button').onclick = ()=>{
+          ev.files.splice(fIdx,1);
+          renderFiles(); scheduleSave();
+        };
+        filesEl.appendChild(chip);
+      });
+    }
+    renderFiles();
+
+    const fileInput = row.querySelector('[data-fileinput]');
+    fileInput.onchange = async ()=>{
+      const chosen = Array.from(fileInput.files || []);
+      for(const file of chosen){
+        try{
+          const dataUrl = await readFileAsDataURL(file);
+          ev.files.push({ name:file.name, type:file.type, dataUrl });
+        }catch(e){ console.error('file read error', e); }
+      }
+      fileInput.value = '';
+      renderFiles(); scheduleSave();
+    };
+
+    list.appendChild(row);
+  });
+}
+document.getElementById('addEventBtn').onclick = ()=>{
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2,'0');
+  const mm = String(now.getMinutes()).padStart(2,'0');
+  state.events.push({ time: hh+':'+mm, text:'', files:[] });
+  renderEvents(); scheduleSave();
+};
+
+/* ---------- export events-only output ---------- */
+function esc(s){
+  return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+document.getElementById('exportEventsBtn').onclick = ()=>{
+  const w = window.open('', '_blank');
+  if(!w){ showToast('اجازه بازکردن پنجره جدید داده نشد'); return; }
+  const rows = state.events.map((ev, i)=>{
+    const filesHtml = (ev.files||[]).map(f=>{
+      if((f.type||'').startsWith('image/')){
+        return `<div class="att"><img src="${f.dataUrl}"><div class="fn">${esc(f.name)}</div></div>`;
+      }
+      return `<div class="att"><video src="${f.dataUrl}" controls></video><div class="fn">${esc(f.name)}</div></div>`;
+    }).join('');
+    return `
+      <div class="ev">
+        <div class="ev-head"><span class="idx">${i+1}</span><span class="time">${esc(ev.time)}</span></div>
+        <div class="ev-text">${esc(ev.text).replace(/\n/g,'<br>')}</div>
+        ${filesHtml ? `<div class="atts">${filesHtml}</div>` : ''}
+      </div>`;
+  }).join('') || '<p style="color:#888">رویدادی ثبت نشده است.</p>';
+
+  const html = `<!DOCTYPE html>
+<html lang="fa" dir="rtl"><head><meta charset="UTF-8">
+<title>شرح اتفاقات و وقایع — ${esc(state.shiftDate)}</title>
+<style>
+  body{font-family:Tahoma,Arial,sans-serif;background:#fff;color:#111;padding:24px;line-height:1.8;}
+  h1{font-size:18px;margin:0 0 4px;}
+  .meta{font-size:13px;color:#555;margin-bottom:18px;}
+  .ev{border:1px solid #ddd;border-radius:8px;padding:12px 14px;margin-bottom:12px;}
+  .ev-head{display:flex;gap:10px;align-items:center;margin-bottom:6px;font-weight:700;}
+  .ev-head .idx{background:#eee;border-radius:6px;padding:1px 8px;font-size:12px;}
+  .ev-head .time{color:#a66a1c;}
+  .ev-text{font-size:14px;white-space:pre-wrap;}
+  .atts{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;}
+  .att{width:180px;}
+  .att img, .att video{width:180px;height:130px;object-fit:cover;border-radius:6px;border:1px solid #ddd;}
+  .att .fn{font-size:11px;color:#666;margin-top:4px;word-break:break-all;}
+  .printbtn{margin-bottom:18px;padding:8px 16px;border-radius:8px;border:1px solid #a66a1c;background:#fdf1e0;cursor:pointer;font-family:inherit;}
+  @media print{ .printbtn{display:none;} }
+</style></head>
+<body>
+  <button class="printbtn" onclick="window.print()">چاپ / ذخیره PDF</button>
+  <h1>شرح اتفاقات و وقایع</h1>
+  <div class="meta">تاریخ شیفت: ${esc(state.shiftDate)} — نوع شیفت: ${esc(state.shiftType)} — تایم شیفت: ${esc(state.shiftDuration)} — سرشیفت: ${esc(state.chiefName)}</div>
+  ${rows}
+</body></html>`;
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
+};
+
+/* ---------- posts table ---------- */
+function renderPosts(){
+  const body = document.getElementById('postsBody');
+  body.innerHTML = '';
+  state.posts.forEach((p, idx)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><span class="idx">${idx+1}</span></td>
+      <td><input type="text" data-f="name" value="${p.name||''}" placeholder="نام پرسنل"></td>
+      <td><input type="text" data-f="post" value="${p.post||''}" placeholder="موقعیت پستی"></td>
+      <td><input type="text" class="radio-code" data-f="code" value="${p.code||''}" placeholder="کد"></td>
+      <td><button class="present-toggle ${p.present?'on':''}" data-toggle>${p.present?'✓':''}</button></td>
+      <td><input type="text" class="score" data-f="score" value="${p.score||''}" placeholder="—"></td>
+      <td><button class="row-del" title="حذف ردیف">🗑</button></td>
+    `;
+    tr.querySelectorAll('input[data-f]').forEach(inp=>{
+      inp.oninput = ()=>{ p[inp.dataset.f] = inp.value; scheduleSave(); };
+    });
+    tr.querySelector('[data-toggle]').onclick = (e)=>{
+      p.present = !p.present;
+      e.target.classList.toggle('on', p.present);
+      e.target.textContent = p.present ? '✓' : '';
+      scheduleSave();
+    };
+    tr.querySelector('.row-del').onclick = ()=>{
+      state.posts.splice(idx,1);
+      renderPosts(); scheduleSave();
+    };
+    body.appendChild(tr);
+  });
+}
+document.getElementById('addPostBtn').onclick = ()=>{
+  state.posts.push({ id: uid(), name:'', post:'', code:'', present:false, score:'' });
+  renderPosts(); scheduleSave();
+};
+
+/* ---------- top-level actions ---------- */
+document.getElementById('newReportBtn').onclick = ()=>{
+  state = blankReport();
+  renderAll();
+  scheduleSave();
+};
+document.getElementById('saveBtn').onclick = async ()=>{
+  state.updatedAt = Date.now();
+  try{
+    await window.storage.set(reportKey(state.id), JSON.stringify(state), true);
+    allReports[state.id] = JSON.parse(JSON.stringify(state));
+    setStatus(false);
+    renderHistory();
+    showToast('گزارش ذخیره شد');
+  }catch(e){
+    showToast('خطا در ذخیره‌سازی');
+  }
+};
+document.getElementById('printBtn').onclick = ()=> window.print();
+
+function renderAll(){
+  fillHeader();
+  renderCategories();
+  renderEvents();
+  renderPosts();
+  renderHistory();
+}
+
+(async function init(){
+  bindHeader();
+  await loadAll();
+  const reps = sortedReports();
+  state = reps.length ? JSON.parse(JSON.stringify(reps[0])) : blankReport();
+  renderAll();
+  if(reps.length===0){ scheduleSave(); }
+})();
+</script>
+</body>
+</html>
